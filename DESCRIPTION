@@ -1,0 +1,19 @@
+Package: MyUtilities
+Title: Collection of general functions which are useful in multiple contexts
+Version: 1.3.1
+Authors@R: 
+    person(given = "Lars",
+           family = "Isenberg",
+           role = c("aut", "cre"),
+           email = "lars.isenberg@forst.bwl.de")
+Description: See title
+Imports: stringr,
+		 rje,
+		 MyUtilities
+Depends: data.table,
+         dplyr
+Suggests: RUnit
+License: What license it uses
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.0.2
