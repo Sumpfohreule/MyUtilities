@@ -122,6 +122,14 @@ testOnMoreThanTwoColumnsWithOnlyNaNoNanIsReturned <- function() {
     # (NA or NaN) and not NaN = NA and not NaN
     RUnit::checkTrue(TRUE %in% is.na(unlist(filled_table[6,])))
     RUnit::checkTrue(!(TRUE %in% is.nan(unlist(filled_table[6,]))))
-
 }
 
+testErrorOnOnlyOneColumn <- function() {
+    value_table <- data.frame(x = 1:10)
+    RUnit::checkException(simpleValueFill(value_table, value_cols = c("x")))
+}
+
+testErrorOnProvidedColsNotExisting <- function() {
+    value_table <- data.frame(x = c(1:5, NA, 7:10), y =  c(1:5, NA, 7:10), z = c(1:5, NA, 7:10))
+    RUnit::checkException(simpleValueFill(value_table, value_cols = c("x", "not_there")))
+}

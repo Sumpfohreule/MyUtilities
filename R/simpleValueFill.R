@@ -8,16 +8,14 @@
 #' @param min_correlation Minimum correlation factor between columns to use it for filling
 #' @export
 #'
-# path = "O:/PROJEKT/NIEDER/LOGGER/HEIDELBG/Heidelberg_ges_Korrektur/2018/Heidelberg_Gesamt_2018_PR_ed_LR_ed_LI_ed_RH_V07_mitWD.xlsx"
-# sheet = "Fichte"
-# value_table <- MyUtilities::importAggregateExcelSheet(path, sheet) %>%
-#     select(-CycleCounter, -UB) %>%
-#     select(-ends_with("SUM")) %>%
-#     select(-matches("[^T]_PF_"))
-# value_cols <- c("Temp_894", "Temp_909", "Temp_914")
-
 simpleValueFill <- function(value_table, value_cols, min_correlation = 0.9) {
+    if (length(value_cols) <= 1) {
+        stop("To fill values, at least two value_cols need to be provided")
+    }
     original_names <- names(value_table)
+    if (FALSE %in% (value_cols %in% original_names)) {
+        stop("At least one of the value_cols was not found in value_table")
+    }
     new_names <- make.names(original_names)
     out_table <- value_table %>%
         dplyr::mutate_at(tidyselect::all_of(value_cols), as.numeric) %>%
