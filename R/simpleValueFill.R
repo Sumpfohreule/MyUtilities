@@ -75,8 +75,14 @@ simpleValueFill <- function(value_table, value_cols, min_correlation = 0.9) {
         }
     }
     row_means <- out_table %>%
-        mutate(temp_row_means = rowMeans(select(., new_value_cols), na.rm = TRUE)) %>%
+        mutate(temp_row_means = rowMeans(select(., tidyselect::all_of(new_value_cols)), na.rm = TRUE)) %>%
+        mutate(temp_row_means = if_else(
+            condition = is.nan(temp_row_means),
+            true = as.numeric(NA),
+            false = temp_row_means
+        )) %>%
         pull(temp_row_means)
+
     for (value_column in new_value_cols) {
         na_values <- out_table %>%
             pull(value_column) %>%

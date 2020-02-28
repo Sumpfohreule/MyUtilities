@@ -113,4 +113,15 @@ testAllValuesAreEmpty <- function() {
     RUnit::checkEquals(original_table, filled_table)
 }
 
+testOnMoreThanTwoColumnsWithOnlyNaNoNanIsReturned <- function() {
+    value_table <- data.frame(x = c(1:5, NA, 7:10), y =  c(1:5, NA, 7:10), z = c(1:5, NA, 7:10))
+
+    filled_table <- simpleValueFill(value_table, value_cols = c("x", "y", "z"))
+
+    # check first if values are NA or NaN (is.na) and afterwards that non are NaN
+    # (NA or NaN) and not NaN = NA and not NaN
+    RUnit::checkTrue(TRUE %in% is.na(unlist(filled_table[6,])))
+    RUnit::checkTrue(!(TRUE %in% is.nan(unlist(filled_table[6,]))))
+
+}
 
