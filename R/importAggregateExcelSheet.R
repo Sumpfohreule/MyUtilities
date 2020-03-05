@@ -18,7 +18,7 @@ importAggregateExcelSheet <- function(xlsx_path, sheet) {
                                 colNames = FALSE,
                                 skipEmptyCols = FALSE) %>%
             data.table::setnames(column_names) %>%
-            dplyr::mutate(Datum = as.POSIXctFixed(Datum * 60 * 60 * 24,
+            dplyr::mutate(Datum = as.POSIXct(Datum * 60 * 60 * 24,
                                                   origin = "1899-12-30",
                                                   tz = "UTC")) %>%
             dplyr::mutate(Datum = roundPOSIXct(Datum,
