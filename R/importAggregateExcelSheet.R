@@ -7,23 +7,24 @@
 #'
 importAggregateExcelSheet <- function(xlsx_path, sheet) {
     tryCatch({
-        column_names <- openxlsx::read.xlsx(
+        xlsx_sheet <- openxlsx::read.xlsx(
             xlsx_path,
-            sheet = sheet,
-            rows = 1) %>%
-            names()
-        xlsx_sheet <- openxlsx::read.xlsx(xlsx_path,
-                                sheet = sheet,
-                                startRow = 3,
-                                colNames = FALSE,
-                                skipEmptyCols = FALSE) %>%
-            data.table::setnames(column_names) %>%
-            dplyr::mutate(Datum = as.POSIXct(Datum * 60 * 60 * 24,
-                                                  origin = "1899-12-30",
-                                                  tz = "UTC")) %>%
-            dplyr::mutate(Datum = roundPOSIXct(Datum,
-                                               in.seconds = 5 * 60,
-                                               round.fun = round)) %>%
+            sheet = sheet) %>%
+            slice(-1) %>%
+            purrr::map(function(x) {
+                col_type <- readr::guess_parser(x)
+                conversion_function <- get(paste0("as.", col_type))
+                return(conversion_function(x))
+            }) %>%
+            as.data.frame() %>%
+            mutate(Datum = as.POSIXct(
+                Datum * 60 * 60 * 24,
+                origin = "1899-12-30",
+                tz = "UTC")) %>%
+            mutate(Datum = roundPOSIXct(
+                Datum,
+                in.seconds = 5 * 60,
+                round.fun = round)) %>%
             data.table::as.data.table()
     }, error = function(e) {
         message <- geterrmessage()
