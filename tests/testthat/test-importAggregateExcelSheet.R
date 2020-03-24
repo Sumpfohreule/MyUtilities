@@ -40,13 +40,13 @@ test_that("Duplicated columns are handled without error", {
     expect_equal(names(modified_table), c("Datum", "PR", "PR", "Temp_900", "Temp_904", "SE_900", "SE_904"))
 })
 
-test_that("Non standard 'Datum' columns are recognized without problem", {
+test_that("Non standard 'Datum' columns are recognized and changed to just that", {
     .clear_tempdir()
-    test_data <- .createDummyDataFrame(c("%Datum", "PR", "Temp_900", "SE_900"))
+    test_data <- .createDummyDataFrame(c("%Datum"))
 
     path <- file.path(tempdir(), "Test.xlsx")
     openxlsx::write.xlsx(test_data, path, sheetName = "Fichte")
 
     modified_table <- importAggregateExcelSheet(path, sheet = "Fichte")
-    expect_equal(names(modified_table), c("%Datum", "PR", "Temp_900", "SE_900"))
+    expect_equal(names(modified_table), c("Datum"))
 })
