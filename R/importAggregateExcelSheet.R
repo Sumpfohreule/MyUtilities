@@ -11,6 +11,10 @@ importAggregateExcelSheet <- function(xlsx_path, sheet) {
             xlsx_path,
             sheet = sheet)
         original_names <- names(input_sheet)
+        date_col <- original_names %>%
+            stringr::str_match(pattern = "^.*Datum$") %>%
+            na.omit() %>%
+            sym()
 
         output_sheet <- input_sheet %>%
             as_tibble(.name_repair = "unique") %>%
@@ -20,13 +24,13 @@ importAggregateExcelSheet <- function(xlsx_path, sheet) {
                 conversion_function <- get(paste0("as.", col_type))
                 return(conversion_function(x))
             }) %>%
-            as.data.frame() %>%
-            mutate(Datum = as.POSIXct(
-                Datum * 60 * 60 * 24,
+            as_tibble() %>%
+            mutate(!!date_col := as.POSIXct(
+                !!date_col * 60 * 60 * 24,
                 origin = "1899-12-30",
                 tz = "UTC")) %>%
-            mutate(Datum = roundPOSIXct(
-                Datum,
+            mutate(!!date_col := roundPOSIXct(
+                !!date_col,
                 in.seconds = 5 * 60,
                 round.fun = round)) %>%
             data.table::as.data.table()
