@@ -28,3 +28,14 @@ test_that("Empty columns with header are imported correctly", {
     expect_equal(object = names(importAggregateExcelSheet(xlsx_path = path, sheet = "Fichte")),
                  expected = c("Datum", "Temp_900", "Temp_904", "SE_900", "SE_904"))
 })
+
+
+test_that("Duplicated columns are handled without error", {
+    .clear_tempdir()
+    test_data <- .createDummyDataFrame(c("Datum", "PR", "PR", "Temp_900", "Temp_904", "SE_900", "SE_904"))
+    path <- file.path(tempdir(), "Test.xlsx")
+    openxlsx::write.xlsx(test_data, path, sheetName = "Fichte")
+
+    modified_table <- importAggregateExcelSheet(path, sheet = "Fichte")
+    expect_equal(names(modified_table), c("Datum", "PR", "PR", "Temp_900", "Temp_904", "SE_900", "SE_904"))
+})

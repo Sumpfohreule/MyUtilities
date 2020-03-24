@@ -7,9 +7,13 @@
 #'
 importAggregateExcelSheet <- function(xlsx_path, sheet) {
     tryCatch({
-        xlsx_sheet <- openxlsx::read.xlsx(
+        input_sheet <- openxlsx::read.xlsx(
             xlsx_path,
-            sheet = sheet) %>%
+            sheet = sheet)
+        original_names <- names(input_sheet)
+
+        output_sheet <- input_sheet %>%
+            as_tibble(.name_repair = "unique") %>%
             slice(-1) %>%
             purrr::map(function(x) {
                 col_type <- readr::guess_parser(x)
@@ -31,5 +35,6 @@ importAggregateExcelSheet <- function(xlsx_path, sheet) {
         if (!stringr::str_detect(message, "Cannot find sheet named"))
             stop(e)
     })
-    return(xlsx_sheet)
+    names(output_sheet) <- original_names
+    return(output_sheet)
 }
