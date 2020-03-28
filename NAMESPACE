@@ -2,6 +2,7 @@
 
 S3method(fillDateGaps,Date)
 S3method(fillDateGaps,POSIXct)
+export(.clear_tempdir)
 export(POSIXct)
 export(access32BitQuery)
 export(addYearStartEnd)
