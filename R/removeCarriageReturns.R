@@ -1,3 +1,0 @@
-removeCarriageReturns <- function(file) {
-
-}
