@@ -25,7 +25,7 @@ fillDateGaps.data.frame <- function(data, group_columns = NULL, date_column = NU
         stop("Multiple date columns found. Explicitly state the one to use in date_column")
     }
 
-    window_options <- c("year", "month", "day")
+    window_options <- c("year", "month", "yday")
     if (!is.null(window) && (window %in% window_options)) {
         additional_groups <- window_options[1:which(window_options %in% window)]
         for (new_group in additional_groups) {
