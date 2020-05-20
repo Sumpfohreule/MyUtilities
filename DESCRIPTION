@@ -1,6 +1,6 @@
 Package: MyUtilities
 Title: Collection of general functions which are useful in multiple contexts
-Version: 3.4.0
+Version: 3.4.1
 Authors@R: 
     person(given = "Lars",
            family = "Isenberg",
@@ -9,7 +9,8 @@ Authors@R:
 Description: See title
 Imports: stringr,
 		 rje,
-		 assertthat
+		 assertthat,
+		 svSocket
 Depends: data.table,
          dplyr
 Suggests: RUnit,
