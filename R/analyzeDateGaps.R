@@ -34,9 +34,10 @@ analyzeDateGaps <- function(dates, interval = NULL, extend.to.full.year = FALSE)
     }
     interval.minutes <- interval / 60
     gap.indices <- which( (diff(dates) - interval.minutes) >= interval.minutes)
+    minutes_total <- (max(as.numeric(dates)) - min(as.numeric(dates))) / 60
     gap.table <- data.table::data.table(
         gap.start = dates[gap.indices],
         gap.end = dates[gap.indices + 1],
-        gap.size = as.numeric(diff(dates)[gap.indices] - interval.minutes))
+        gap.size.percent = round(as.numeric(diff(dates)[gap.indices] - interval.minutes) / minutes_total * 100))
     return(gap.table)
 }
