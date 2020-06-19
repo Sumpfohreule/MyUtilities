@@ -6,7 +6,7 @@
 #' @export
 #'
 importAggregateExcelSheet <- function(xlsx_path, sheet) {
-    assertthat::assert_that(sheet %in% openxlsx::getSheetNames(xlsx_path))
+    assertthat::assert_that(is_contained(sheet, openxlsx::getSheetNames(xlsx_path)))
     input_sheet <- openxlsx::read.xlsx(
         xlsx_path,
         sheet = sheet)
