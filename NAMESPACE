@@ -3,6 +3,7 @@
 S3method(fillDateGaps,Date)
 S3method(fillDateGaps,POSIXct)
 S3method(fillDateGaps,data.frame)
+export()
 export(.clear_tempdir)
 export(POSIXct)
 export(access32BitQuery)

@@ -10,7 +10,7 @@ importAggregateExcelSheet <- function(xlsx_path, sheet) {
     input_sheet <- openxlsx::read.xlsx(
         xlsx_path,
         sheet = sheet)
-    names(input_sheet) <- stringr::str_replace(names(input_sheet), pattern = "^.*Datum$", replacement = "Datum")
+    names(input_sheet) <- stringr::str_replace(names(input_sheet), pattern = "^.*Datum.*$", replacement = "Datum")
     original_names <- names(input_sheet)
 
     date_col <- sym("Datum")
