@@ -1,12 +1,16 @@
 #' Imports FVA specific Level2 aggregated xlsx-file (Gesamt)
 #'
-#' @param xlsx_path A file path to an excel with a specific structure (Two header columns; date column named 'Datum')
+#' @param xlsx_path A file path (or a workbook) to an excel with a specific structure (Two header columns; date column named 'Datum')
 #' @param sheet Single sheet name of the excel file to be imported
 #' @return A data.table
 #' @export
 #'
 importAggregateExcelSheet <- function(xlsx_path, sheet) {
-    assertthat::assert_that(is_contained(sheet, openxlsx::getSheetNames(xlsx_path)))
+    if (assertthat::is.string(xlsx_path)) {
+        assertthat::assert_that(is_contained(sheet, openxlsx::getSheetNames(xlsx_path)))
+    } else {
+        assertthat::assert_that(is_contained(sheet, names(xlsx_path)))
+    }
     input_sheet <- openxlsx::read.xlsx(
         xlsx_path,
         sheet = sheet)
