@@ -3,7 +3,7 @@
 #'
 #' Correlations between value columns are tested and missing values are replaced beginning with the best correlation.
 #'
-#' @param value_table A data.table which contains the values to be filled and for replacement
+#' @param value_table A data.frame which contains the values to be filled and for replacement
 #' @param value_cols column names of the columns which are to be filled and used for replacement
 #' @param min_correlation Minimum correlation factor between columns to use it for filling
 #' @export
@@ -18,34 +18,26 @@ simpleValueFill <- function(value_table, value_cols, min_correlation = 0.9) {
     }
     new_names <- make.names(original_names)
     out_table <- value_table %>%
-        dplyr::mutate_at(tidyselect::all_of(value_cols), as.numeric) %>%
-        data.table::as.data.table() %>%
-        data.table::setnames(original_names, new_names) %>%
-        data.frame()
-
+        dplyr::mutate_at(tidyselect::all_of(value_cols), as.numeric)
+    names(out_table) <- new_names
     new_value_cols <- make.names(value_cols)
     var_pairs <- rje::powerSet(unique(new_value_cols)) %>%
         purrr::map(., function(x) if (length(x) == 2) return(x)) %>%
         Filter(f = Negate(is.null), x = .)
 
-    correlation_table <- data.table::data.table(
-        matrix(unlist(var_pairs),
-               ncol = 2,
-               byrow = TRUE)) %>%
-        data.table::setnames(c("variable_1", "variable_2")) %>%
-        mutate(correlation = as.numeric(NA))
-    for (pair in var_pairs) {
-        calculated_correlation <- out_table %>%
-            summarise(cor(
-                x = !!as.symbol(pair[1]),
-                y = !!as.symbol(pair[2]),
-                use = "na.or.complete"))
-        index <- correlation_table[, "variable_1"] == pair[1] & correlation_table[, "variable_2"] == pair[2]
-        correlation_table[index, "correlation"] <- calculated_correlation
-    }
-    correlation_table <- correlation_table %>%
-        dplyr::filter(correlation >= min_correlation) %>%
-        data.table::data.table()
+    correlation_table <- var_pairs %>%
+        purrr::map(~ {
+            correlation <- out_table %>%
+                summarise(cor(
+                    x = !!as.symbol(.x[1]),
+                    y = !!as.symbol(.x[2]),
+                    use = "na.or.complete")) %>%
+                unname() %>%
+                unlist() %>%
+                tibble(variable_1 = .x[1], variable_2 = .x[2], correlation = .)
+        }) %>%
+        bind_rows() %>%
+        dplyr::filter(correlation >= min_correlation)
 
     unselected_columns <- setdiff(new_names, new_value_cols)
     for (value.col in new_value_cols) {
@@ -58,16 +50,16 @@ simpleValueFill <- function(value_table, value_cols, min_correlation = 0.9) {
             dplyr::select(-variable_2) %>%
             dplyr::arrange(dplyr::desc(correlation))
 
-        for (replace.column in reduced_correlation[, "variable_1"]) {
+        for (replace.column in unlist(reduced_correlation[, "variable_1"])) {
             replacement_rows <- out_table %>%
                 mutate(temp_na_replace = is.na(!!as.symbol(value.col)) & !is.na(!!as.symbol(replace.column))) %>%
                 pull(temp_na_replace)
             if (sum(replacement_rows) > 0) {
-                pair_formula <- as.formula(paste(value.col, replace.column, sep = "~"))
-                model <- out_table %>%
-                    lm(formula = tidyselect::all_of(pair_formula), data = .)
-                replacement_predictions <- model %>%
-                    predict(out_table[replacement_rows, ])
+                replacement_predictions <- replace.column %>%
+                    purrr::map(~ paste(value.col, .x, sep = "~")) %>%
+                    unlist() %>%
+                    purrr::map(~ lm(formula = .x, out_table)) %>%
+                    purrr::map(~ predict(.x, as.data.frame(out_table[replacement_rows, ])))
                 out_table[replacement_rows, value.col] <- replacement_predictions
             }
         }
@@ -87,6 +79,6 @@ simpleValueFill <- function(value_table, value_cols, min_correlation = 0.9) {
             is.na()
         out_table[na_values, value_column] <- row_means[na_values]
     }
-    data.table::setnames(out_table, original_names)
+    names(out_table) <- original_names
     return(out_table)
 }
