@@ -28,7 +28,7 @@ importAggregateExcelSheet <- function(xlsx_path, sheet) {
         }) %>%
         as_tibble() %>%
         mutate(!!date_col := as.POSIXct(!!date_col * 60 * 60 * 24, origin = "1899-12-30", tz = "UTC")) %>%
-        mutate(!!date_col := lubridate::round_date(!!date_col, "5min")) %>%
+        mutate(!!date_col := lubridate::round_date(!!date_col, "1min")) %>%
         data.table::as.data.table()
     names(output_sheet) <- original_names
     return(output_sheet)
