@@ -6,7 +6,7 @@
 #' @return Either the minimum value of the vector or the provided default value
 #' @seealso \code{\link{max_with_default}, \link{mean_with_default}, \link{sum_with_default}}
 #' @export
-min_with_default <- function(x, default = NA) {
+min_with_default <- function(x, default = as.numeric(NA)) {
     .aggregate_with_default(x, default, min)
 }
 
@@ -18,7 +18,7 @@ min_with_default <- function(x, default = NA) {
 #' @return Either the maximum value of the vector or the provided default value
 #' @seealso \code{\link{min_with_default}, \link{mean_with_default}, \link{sum_with_default}}
 #' @export
-max_with_default <- function(x, default = NA) {
+max_with_default <- function(x, default = as.numeric(NA)) {
     .aggregate_with_default(x, default, max)
 }
 
@@ -30,7 +30,7 @@ max_with_default <- function(x, default = NA) {
 #' @return Either the mean value of the vector or the provided default value
 #' @seealso \code{\link{min_with_default}, \link{max_with_default}, \link{sum_with_default}}
 #' @export
-mean_with_default <- function(x, default = NA) {
+mean_with_default <- function(x, default = as.numeric(NA)) {
     .aggregate_with_default(x, default, mean)
 }
 
@@ -42,7 +42,7 @@ mean_with_default <- function(x, default = NA) {
 #' @return Either the sum value of the vector or the provided default value
 #' @seealso \code{\link{min_with_default}, \link{max_with_default}, \link{mean_with_default}}
 #' @export
-sum_with_default <- function(x, default = NA) {
+sum_with_default <- function(x, default = as.numeric(NA)) {
     .aggregate_with_default(x, default, sum)
 }
 
