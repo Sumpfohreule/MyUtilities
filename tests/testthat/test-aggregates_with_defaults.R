@@ -12,7 +12,7 @@ test_that("min_with_default does not consider NAs, if values are present", {
 })
 
 test_that("min_with_default returns given default, if only NAs are present", {
-    expect_equal(min_with_default(NA), 0)
+    expect_equal(min_with_default(NA), NA)
     expect_equal(min_with_default(NA, default = 100), 100)
     expect_equal(min_with_default(NA, default = -111), -111)
 })
@@ -31,7 +31,7 @@ test_that("max_with_default does not consider NAs, if values are present", {
 })
 
 test_that("max_with_default returns given default, if only NAs are present", {
-    expect_equal(max_with_default(NA), 0)
+    expect_equal(max_with_default(NA), NA)
     expect_equal(max_with_default(NA, default = 100), 100)
     expect_equal(max_with_default(NA, default = -111), -111)
 })
@@ -50,7 +50,7 @@ test_that("mean_with_default does not consider NAs, if values are present", {
 })
 
 test_that("mean_with_default returns given default, if only NAs are present", {
-    expect_equal(mean_with_default(NA), 0)
+    expect_equal(mean_with_default(NA), NA)
     expect_equal(mean_with_default(NA, default = 100), 100)
     expect_equal(mean_with_default(NA, default = -111), -111)
 })
@@ -69,7 +69,7 @@ test_that("sum_with_default does not consider NAs, if values are present", {
 })
 
 test_that("sum_with_default returns given default, if only NAs are present", {
-    expect_equal(sum_with_default(NA), 0)
+    expect_equal(sum_with_default(NA), NA)
     expect_equal(sum_with_default(NA, default = 100), 100)
     expect_equal(sum_with_default(NA, default = -111), -111)
 })
