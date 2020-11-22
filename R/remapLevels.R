@@ -11,6 +11,7 @@
 #' @export
 #'
 remapLevels <- function(factor_vector, pattern, replacement) {
+    .Deprecated("dplyr::recode_factor", "MyUtilities")
     factor_vector <- factor(factor_vector)
     levels(factor_vector) <- stringr::str_replace(levels(factor_vector), pattern = pattern, replacement = replacement)
     return(factor_vector)
