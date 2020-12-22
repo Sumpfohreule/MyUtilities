@@ -1,6 +1,6 @@
 Package: MyUtilities
 Title: Collection of general functions which are useful in multiple contexts
-Version: 3.8.0
+Version: 4.0.0
 Authors@R: 
     person(given = "Lars",
            family = "Isenberg",
