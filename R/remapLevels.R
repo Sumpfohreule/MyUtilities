@@ -15,7 +15,7 @@ remapLevels <- function(factor_vector, pattern, replacement, keep_levels = TRUE)
     factor_vector <- factor(factor_vector)
     new_levels <- stringr::str_replace(levels(factor_vector), pattern = pattern, replacement = replacement)
     if (keep_levels) {
-        new_levels <- union(levels(factor_vector), new_levels)
+        new_levels <- union(new_levels, levels(factor_vector))
     }
     levels(factor_vector) <- new_levels
     return(factor_vector)
