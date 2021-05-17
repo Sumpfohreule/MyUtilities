@@ -1,7 +1,7 @@
 ########################################################################################################################
 #' Efficient regex remaping of factors
 #'
-#' Convenient function for enaming of factor levels (and values) in an efficient way compared to "naive" way
+#' Convenient function for renaming of factor levels (and values) in an efficient way
 #'
 #' @param factor_vector A factor vector
 #' @param pattern A string regex pattern
