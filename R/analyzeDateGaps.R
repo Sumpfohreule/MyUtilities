@@ -35,14 +35,14 @@ analyzeDateGaps <- function(dates, interval = NULL, extend.to.full.year = FALSE)
         }
         attr(dates, "tzone") <- "UTC"
     }
-    gap.indices <- which((diff(dates) - lubridate::make_difftime(interval, units = "second")) >= interval)
+    gap_indices <- which((diff(dates) - lubridate::make_difftime(interval, units = "second")) >= interval)
     total_measurements <- (max(lubridate::seconds(dates)) - min(lubridate::seconds(dates))) / interval + 1
-    missing_measurements <- ((as.numeric(dates[gap.indices + 1]) - interval) - (as.numeric(dates[gap.indices]) + interval)) / interval + 1
+    missing_measurements <- ((as.numeric(dates[gap_indices + 1]) - interval) - (as.numeric(dates[gap_indices]) + interval)) / interval + 1
     gap_size_percent <- round(missing_measurements / total_measurements * 100)
 
-    gap.table <- data.frame(
-        gap_start = dates[gap.indices],
-        gap_end = dates[gap.indices + 1],
+    gap_table <- data.frame(
+        gap_start = dates[gap_indices],
+        gap_end = dates[gap_indices + 1],
         gap_size_percent = gap_size_percent)
-    return(gap.table)
+    return(gap_table)
 }
