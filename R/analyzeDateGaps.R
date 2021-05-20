@@ -12,6 +12,12 @@
 #' @export
 #'
 analyzeDateGaps <- function(dates, interval = NULL, extend.to.full.year = FALSE) {
+    if (length(dates) <= 1 && !extend.to.full.year) {
+        empty_output <- data.frame(gap_start = lubridate::Date(),
+                                   gap_end = lubridate::Date(),
+                                   gap_size_percent = numeric())
+        return(empty_output)
+    }
     dates <- dates[order(dates)]
     interval.table <- dates %>%
         diff() %>%
