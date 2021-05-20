@@ -13,7 +13,10 @@
 #'
 analyzeDateGaps <- function(dates, interval = NULL, extend.to.full.year = FALSE) {
     dates <- dates[order(dates)]
-    interval.table <- table(diff(dates))
+    interval.table <- dates %>%
+        diff() %>%
+        table()
+
     if (TRUE %in% (as.numeric(attr(interval.table, "names")) <= 0)) {
         stop("'dates' must consist of (unique) strictly monotonically increasing values.")
     }
@@ -32,12 +35,14 @@ analyzeDateGaps <- function(dates, interval = NULL, extend.to.full.year = FALSE)
         }
         attr(dates, "tzone") <- "UTC"
     }
-    interval.minutes <- interval / 60
-    gap.indices <- which( (diff(dates) - interval.minutes) >= interval.minutes)
-    minutes_total <- (max(as.numeric(dates)) - min(as.numeric(dates))) / 60
-    gap.table <- data.table::data.table(
-        gap.start = dates[gap.indices],
-        gap.end = dates[gap.indices + 1],
-        gap.size.percent = round(as.numeric(diff(dates)[gap.indices] - interval.minutes) / minutes_total * 100))
+    gap.indices <- which((diff(dates) - lubridate::make_difftime(interval, units = "second")) >= interval)
+    total_measurements <- (max(lubridate::seconds(dates)) - min(lubridate::seconds(dates))) / interval + 1
+    missing_measurements <- ((as.numeric(dates[gap.indices + 1]) - interval) - (as.numeric(dates[gap.indices]) + interval)) / interval + 1
+    gap_size_percent <- round(missing_measurements / total_measurements * 100)
+
+    gap.table <- data.frame(
+        gap_start = dates[gap.indices],
+        gap_end = dates[gap.indices + 1],
+        gap_size_percent = gap_size_percent)
     return(gap.table)
 }
