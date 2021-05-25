@@ -18,7 +18,8 @@ analyzeDateGaps <- function(dates, interval = NULL, extend.to.full.year = FALSE)
                                    gap_size_percent = numeric())
         return(empty_output)
     }
-    dates <- dates[order(dates)]
+    dates <- dates[order(dates)] %>%
+        lubridate::as_datetime()
     interval.table <- dates %>%
         diff() %>%
         table()
@@ -30,19 +31,19 @@ analyzeDateGaps <- function(dates, interval = NULL, extend.to.full.year = FALSE)
         interval <- calculateMainInterval(dates)
     }
     if (extend.to.full.year) {
+        # browser()
         years <- unique(data.table::year(dates))
-        start.date <- as.POSIXctFixed(paste0(min(years), "-01-01"), tz = "UTC")
-        end.date <- as.POSIXctFixed(paste0(max(years) + 1, "-01-01"), tz = "UTC") - interval
+        start.date <- lubridate::as_datetime(paste0(min(years), "-01-01"))
+        end.date <- lubridate::as_datetime(paste0(max(years) + 1, "-01-01")) - lubridate::seconds(interval)
         if (dates[1] != start.date) {
             dates <- c(start.date, dates)
         }
         if (tail(dates, n = 1L) != end.date) {
-            dates <- as.POSIXctFixed(c(dates, end.date), tz = "UTC")
+            dates <- c(dates, end.date)
         }
-        attr(dates, "tzone") <- "UTC"
     }
     gap_indices <- which((diff(dates) - lubridate::make_difftime(interval, units = "second")) >= interval)
-    total_measurements <- (max(lubridate::seconds(dates)) - min(lubridate::seconds(dates))) / interval + 1
+    total_measurements <- (as.numeric(max(dates)) - as.numeric(min(dates))) / interval + 1
     missing_measurements <- ((as.numeric(dates[gap_indices + 1]) - interval) - (as.numeric(dates[gap_indices]) + interval)) / interval + 1
     gap_size_percent <- round(missing_measurements / total_measurements * 100)
 
