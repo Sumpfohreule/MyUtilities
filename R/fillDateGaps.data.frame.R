@@ -5,8 +5,8 @@
 #' @param data A data.frame containing at least a date column
 #' @param group_columns Optional: If the data is grouped, provide the grouping column names
 #' @param date_column Name of the date column. Can be omitted if the data.frame contains a single column of type POSIXct
-#' @param windwo If intervalls can change within their groups use a window ("year", "month", "day")
-#' to specify a finer net to calculate the filling intervalls
+#' @param windwo If intervals can change within their groups use a window ("year", "month", "day")
+#' to specify a finer net to calculate the filling intervals
 #' @export
 fillDateGaps.data.frame <- function(data, group_columns = NULL, date_column = NULL, window = NULL) {
     assertthat::assert_that(assertthat::is.string(date_column) || is.null(date_column))

@@ -31,7 +31,6 @@ analyzeDateGaps <- function(dates, interval = NULL, extend.to.full.year = FALSE)
         interval <- calculateMainInterval(dates)
     }
     if (extend.to.full.year) {
-        # browser()
         years <- unique(data.table::year(dates))
         start.date <- lubridate::as_datetime(paste0(min(years), "-01-01"))
         end.date <- lubridate::as_datetime(paste0(max(years) + 1, "-01-01")) - lubridate::seconds(interval)
