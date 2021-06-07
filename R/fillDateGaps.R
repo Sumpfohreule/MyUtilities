@@ -11,6 +11,7 @@ fillDateGaps <- function(obj, ...) {
 }
 
 fillDateGaps.default <- function(obj) {
+    .Deprecated("MyUtilities::fillGaps")
     stop("Only S3 method implementations for the following classes exist:\n\t",
         paste0(methods(fillDateGaps), collapse = "\n\t"))
 }
