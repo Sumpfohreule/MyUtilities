@@ -1,3 +1,15 @@
+#' Fills gaps between values with a given interval
+#'
+#' If values are provided with changing direction (ascending and descending order)
+#' gaps are filled accordingly. Make sure values are orderedbeforehand if only
+#' a single orientation is expected
+#'
+#' \code{values} can be of any type that can be sequenced with \code{seq}.
+#' (numeric, date, POSIXct, ...)
+#'
+#' @param values vector of values to to gap fill
+#' @param interval
+#' @export
 fillGaps <- function(values, interval) {
     local_extrema <- .findLocalExtrema(values)
     purrr::map2(.x = values[local_extrema][-length(local_extrema)],
