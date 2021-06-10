@@ -43,3 +43,12 @@ test_that("Fill gaps works with date times", {
             lubridate::as_datetime("2020-01-01 12:00:00"),
             60 * 60))
 })
+
+test_that("Throw error if multiple intervals are provided to fillGaps", {
+    expect_error(fillGaps(c(1, 3, 5, 100), c(1, 20)))
+})
+
+test_that("Don't fill gaps if the given interval is larger than the acutal gap sizes", {
+    values <- c(1, 3, 5, 7, 9, 11, 13, 15, 11, 10, 7, 11, 15, 12, 9, 6)
+    expect_equal(fillGaps(values, 5), values)
+})
