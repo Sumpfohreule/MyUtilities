@@ -1,5 +1,4 @@
 ########################################################################################################################
-# TODO: check if sd-value can just be calculated within this function!
 #' Creating a sd polygon-table
 #'
 #' This function creates a table, which can be used to plot a sd-polygon in ggplot etc.
