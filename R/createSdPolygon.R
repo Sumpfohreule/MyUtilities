@@ -5,6 +5,8 @@
 #' @param x A numeric vector with the same length as y
 #' @param y A numeric vector with the same length as x
 #' @param sd The standard deviation value calculated for the data
+#' @return A data frame with the polygon coordinates, which is centered
+#' around the \code{y} values with an equal distance of \code{sd}
 #' @export
 #'
 createSdPolygon <- function(x, y, sd) {
