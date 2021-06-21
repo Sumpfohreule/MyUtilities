@@ -1,5 +1,4 @@
 ########################################################################################################################
-# TODO: check if length of x and y is equal
 # TODO: check if sd-value can just be calculated within this function!
 #' Creating a sd polygon-table
 #'
@@ -10,6 +9,7 @@
 #' @export
 #'
 createSdPolygon <- function(x, y, sd) {
+    assertthat::assert_that(length(x) == length(y))
     sd.top <- y + sd
     sd.bot <- y - sd
     out.table <- data.frame(x = c(x, rev(x)), y = c(sd.bot, rev(sd.top)))
