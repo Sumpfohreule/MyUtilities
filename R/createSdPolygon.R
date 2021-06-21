@@ -10,8 +10,8 @@
 #' @export
 #'
 createSdPolygon <- function(x, y, sd) {
-  sd.top <- y + sd
-  sd.bot <- y - sd
-  out.table <- data.frame(x = c(x, rev(x)), y = c(sd.bot, rev(sd.top)))
-  return(na.omit(out.table))
+    sd.top <- y + sd
+    sd.bot <- y - sd
+    out.table <- data.frame(x = c(x, rev(x)), y = c(sd.bot, rev(sd.top)))
+    return(na.omit(out.table))
 }
