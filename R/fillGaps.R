@@ -11,7 +11,7 @@
 #' @param interval A numeric value describing the expected interval
 #' @export
 fillGaps <- function(values, interval) {
-    warning("Not working correctly yet!")
+    stop("Not working correctly yet!")
     assertthat::assert_that(length(interval) == 1)
     local_extrema <- .findLocalExtrema(values)
     purrr::map2(.x = values[local_extrema][-length(local_extrema)],
