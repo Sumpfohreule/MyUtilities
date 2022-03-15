@@ -1,5 +1,5 @@
 ########################################################################################################################
-# TODO: Maybe remove date.col as it probably is better done externally
+# TODO: Replace date.col with more general ways of selection
 #' Query data from an Access-DB (32 Bit)
 #'
 #' A SQL-Query for fetching data from an access db is passed,
