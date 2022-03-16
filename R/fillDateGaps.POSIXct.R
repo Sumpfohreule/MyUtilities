@@ -6,6 +6,6 @@
 #' @export
 #'
 fillDateGaps.POSIXct <- function(date.time.vector, interval.seconds = calculateMainInterval(date.time.vector)) {
-    .Deprecated("MyUtilities::fillGaps")
-    return(seq(min(date.time.vector), max(date.time.vector), interval.seconds))
+  .Deprecated("MyUtilities::fillGaps")
+  return(seq(min(date.time.vector), max(date.time.vector), interval.seconds))
 }

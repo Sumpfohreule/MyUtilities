@@ -5,7 +5,7 @@
 #' @export
 #'
 toUpperByIndex <- function(string, index) {
-    character <- substring(string, first = index, last = index)
-    substring(string, first = index, last = index) <- toupper(character)
-    return(string)
+  character <- substring(string, first = index, last = index)
+  substring(string, first = index, last = index) <- toupper(character)
+  return(string)
 }

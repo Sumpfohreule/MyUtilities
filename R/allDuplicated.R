@@ -8,23 +8,25 @@
 #' @examples
 #' # Usage with a vector
 #' expect_equal(
-#'     object = allDuplicated(c(1, 1, 3, 5, 5, 1)),
-#'     expected = c(TRUE, TRUE, FALSE, TRUE, TRUE, TRUE))
+#'   object = allDuplicated(c(1, 1, 3, 5, 5, 1)),
+#'   expected = c(TRUE, TRUE, FALSE, TRUE, TRUE, TRUE)
+#' )
 #'
 #' # Filtering a data.frame
 #' test_df <- data.frame(vars = c("a", "a", "b", "b", "c"), values = c(1:5))
 #' expect_equal(
-#'    object = filter(test_df, allDuplicated(vars)),
-#'    expected = test_df[-5, ])
+#'   object = filter(test_df, allDuplicated(vars)),
+#'   expected = test_df[-5, ]
+#' )
 #'
 #' @export
 allDuplicated <- function(x) {
-    assertthat::assert_that(is.vector(x))
-    simple_duplicates <- duplicated(x)
-    duplicated_values <- x[simple_duplicates]
-    if (length(duplicated_values) > 0) {
-        return(x %in% duplicated_values)
-    } else {
-        return(rep(FALSE, length(x)))
-    }
+  assertthat::assert_that(is.vector(x))
+  simple_duplicates <- duplicated(x)
+  duplicated_values <- x[simple_duplicates]
+  if (length(duplicated_values) > 0) {
+    return(x %in% duplicated_values)
+  } else {
+    return(rep(FALSE, length(x)))
+  }
 }

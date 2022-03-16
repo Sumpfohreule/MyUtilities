@@ -10,8 +10,8 @@
 #' @export
 #'
 createSdPolygon <- function(x, y, sd) {
-    assertthat::assert_that(length(x) == length(y))
-    sd.top <- y + sd
-    sd.bot <- y - sd
-    data.frame(x = c(x, rev(x)), y = c(sd.bot, rev(sd.top)))
+  assertthat::assert_that(length(x) == length(y))
+  sd.top <- y + sd
+  sd.bot <- y - sd
+  data.frame(x = c(x, rev(x)), y = c(sd.bot, rev(sd.top)))
 }

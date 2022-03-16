@@ -11,31 +11,30 @@
 #' @export
 #'
 
-addYearStartEnd <- function(
-            dates,
-            interval = calculateMainInterval(dates),
-            add.start = TRUE,
-            add.end = TRUE) {
-    interval # Needed, because otherwise lazy evaluation kicks in (interval calculated with added start dates)
-    if (add.start == TRUE) {
-        start.year <- min(data.table::year(dates))
-        start.date <- as.POSIXct(paste0(start.year, "-01-01 00:00:00"), tz = "UTC")
-    } else if (class(add.start) %in% c("character", "POSIXct")) {
-        start.date <- as.POSIXct(add.start, tzone = "UTC")
-    }
-    if (add.start != FALSE && min(dates) != start.date) {
-        dates <- c(start.date, dates)
-        attr(dates, "tzone") <- "UTC"
-    }
-    if (add.end == TRUE) {
-        end.year <- max(data.table::year(dates))
-        end.date <- as.POSIXct(paste0(end.year + 1, "-01-01 00:00:00"), tz = "UTC") - interval
-    } else if (class(add.end) %in% c("character", "POSIXct")) {
-        end.date <- as.POSIXct(add.end, tzone = "UTC")
-    }
-    if (add.end != FALSE && max(dates) != end.date) {
-        dates <- c(dates, end.date)
-        attr(dates, "tzone") <- "UTC"
-    }
-    return(dates)
+addYearStartEnd <- function(dates,
+                            interval = calculateMainInterval(dates),
+                            add.start = TRUE,
+                            add.end = TRUE) {
+  interval # Needed, because otherwise lazy evaluation kicks in (interval calculated with added start dates)
+  if (add.start == TRUE) {
+    start.year <- min(data.table::year(dates))
+    start.date <- as.POSIXct(paste0(start.year, "-01-01 00:00:00"), tz = "UTC")
+  } else if (class(add.start) %in% c("character", "POSIXct")) {
+    start.date <- as.POSIXct(add.start, tzone = "UTC")
+  }
+  if (add.start != FALSE && min(dates) != start.date) {
+    dates <- c(start.date, dates)
+    attr(dates, "tzone") <- "UTC"
+  }
+  if (add.end == TRUE) {
+    end.year <- max(data.table::year(dates))
+    end.date <- as.POSIXct(paste0(end.year + 1, "-01-01 00:00:00"), tz = "UTC") - interval
+  } else if (class(add.end) %in% c("character", "POSIXct")) {
+    end.date <- as.POSIXct(add.end, tzone = "UTC")
+  }
+  if (add.end != FALSE && max(dates) != end.date) {
+    dates <- c(dates, end.date)
+    attr(dates, "tzone") <- "UTC"
+  }
+  return(dates)
 }

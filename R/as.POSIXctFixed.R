@@ -8,10 +8,10 @@
 #' @export
 #'
 as.POSIXctFixed <- function(x, ...) {
-    .Deprecated(new = "lubridate::as_datetime")
-    if ("Date" %in% class(x)) {
-        return(.POSIXct(unclass(x) * 86400, ...))
-    } else {
-        return(as.POSIXct(x, ...))
-    }
+  .Deprecated(new = "lubridate::as_datetime")
+  if ("Date" %in% class(x)) {
+    return(.POSIXct(unclass(x) * 86400, ...))
+  } else {
+    return(as.POSIXct(x, ...))
+  }
 }

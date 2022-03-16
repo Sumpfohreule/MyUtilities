@@ -20,6 +20,6 @@
 #' isLeapYear(2000)
 #'
 isLeapYear <- function(year) {
-    .Deprecated("lubridate::leap_year")
-    return (year %% 400 == 0 | (year %% 4 == 0 & !year %% 100 == 0))
+  .Deprecated("lubridate::leap_year")
+  return(year %% 400 == 0 | (year %% 4 == 0 & !year %% 100 == 0))
 }

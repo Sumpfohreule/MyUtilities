@@ -6,6 +6,6 @@
 #' @export
 #'
 fillDateGaps.Date <- function(date.vector, interval.days = calculateMainInterval(date.vector)) {
-    .Deprecated("MyUtilities::fillGaps")
-    fillDateGaps.POSIXct(date.vector, interval.days)
+  .Deprecated("MyUtilities::fillGaps")
+  fillDateGaps.POSIXct(date.vector, interval.days)
 }

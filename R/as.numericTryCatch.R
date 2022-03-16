@@ -11,18 +11,19 @@
 #' as.numericTryCatch(c("2", "2.3", "A"))
 #'
 as.numericTryCatch <- function(x) {
-    warningOrErrorCaught <- function(e) {
-        already.na <- is.na(x)
-        new.x <- suppressWarnings(as.numeric(x))
-        new.na <- is.na(new.x)
-        out.table <- data.table::data.table(
-            vector.position = which(already.na == FALSE & new.na == TRUE),
-            value = x[which(already.na == FALSE & new.na == TRUE)])
-        print(out.table)
-        stop(paste0(e$message, " (See previous table)"))
-    }
-    tryCatch(as.numeric(x),
-        error = warningOrErrorCaught,
-        warning = warningOrErrorCaught
+  warningOrErrorCaught <- function(e) {
+    already.na <- is.na(x)
+    new.x <- suppressWarnings(as.numeric(x))
+    new.na <- is.na(new.x)
+    out.table <- data.table::data.table(
+      vector.position = which(already.na == FALSE & new.na == TRUE),
+      value = x[which(already.na == FALSE & new.na == TRUE)]
     )
+    print(out.table)
+    stop(paste0(e$message, " (See previous table)"))
+  }
+  tryCatch(as.numeric(x),
+    error = warningOrErrorCaught,
+    warning = warningOrErrorCaught
+  )
 }

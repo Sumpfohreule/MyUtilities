@@ -7,7 +7,7 @@
 #' @seealso \code{\link{max_with_default}, \link{mean_with_default}, \link{sum_with_default}}
 #' @export
 min_with_default <- function(x, default = as.numeric(NA)) {
-    .aggregate_with_default(x, default, min)
+  .aggregate_with_default(x, default, min)
 }
 
 #' Wrapper for max which does remove NAs
@@ -19,7 +19,7 @@ min_with_default <- function(x, default = as.numeric(NA)) {
 #' @seealso \code{\link{min_with_default}, \link{mean_with_default}, \link{sum_with_default}}
 #' @export
 max_with_default <- function(x, default = as.numeric(NA)) {
-    .aggregate_with_default(x, default, max)
+  .aggregate_with_default(x, default, max)
 }
 
 #' Wrapper for mean which does remove NAs
@@ -31,7 +31,7 @@ max_with_default <- function(x, default = as.numeric(NA)) {
 #' @seealso \code{\link{min_with_default}, \link{max_with_default}, \link{sum_with_default}}
 #' @export
 mean_with_default <- function(x, default = as.numeric(NA)) {
-    .aggregate_with_default(x, default, mean)
+  .aggregate_with_default(x, default, mean)
 }
 
 #' Wrapper for sum which does remove NAs
@@ -43,13 +43,13 @@ mean_with_default <- function(x, default = as.numeric(NA)) {
 #' @seealso \code{\link{min_with_default}, \link{max_with_default}, \link{mean_with_default}}
 #' @export
 sum_with_default <- function(x, default = as.numeric(NA)) {
-    .aggregate_with_default(x, default, sum)
+  .aggregate_with_default(x, default, sum)
 }
 
 .aggregate_with_default <- function(x, default, aggregate_function) {
-    if (any(is.finite(x))) {
-        return(aggregate_function(x, na.rm = TRUE))
-    } else {
-        return(default)
-    }
+  if (any(is.finite(x))) {
+    return(aggregate_function(x, na.rm = TRUE))
+  } else {
+    return(default)
+  }
 }

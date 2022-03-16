@@ -8,13 +8,13 @@
 #' @export
 #'
 updateCustomPackage <- function(incrementing_level = "None", package.location = getwd()) {
-    if (incrementing_level %in% c("Development", "Patch", "Minor", "Major")) {
-        incrementPackageVersion(package.location, incrementing_level = incrementing_level)
-    }
-    original.warn.value <- options("warn")[[1]]
-    options(warn = 1)
-    devtools::document(package.location)
-    devtools::build(package.location)
-    devtools::install(package.location, upgrade = FALSE)
-    options(warn = original.warn.value)
+  if (incrementing_level %in% c("Development", "Patch", "Minor", "Major")) {
+    incrementPackageVersion(package.location, incrementing_level = incrementing_level)
+  }
+  original.warn.value <- options("warn")[[1]]
+  options(warn = 1)
+  devtools::document(package.location)
+  devtools::build(package.location)
+  devtools::install(package.location, upgrade = FALSE)
+  options(warn = original.warn.value)
 }

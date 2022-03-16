@@ -6,6 +6,8 @@
 #' @details The provided file will not be overritten. A new file will be created with the target encoding appended at the end
 #' @export
 convertFileEncoding <- function(path, from = "ISO-8859-14", to = "UTF-8") {
-    writeLines(iconv(readLines(path), from = from, to = to),
-               file(paste0(path, "_", to), encoding = to))
+  writeLines(
+    iconv(readLines(path), from = from, to = to),
+    file(paste0(path, "_", to), encoding = to)
+  )
 }

@@ -8,12 +8,12 @@
 #' @export
 #'
 calculateMainInterval <- function(vector) {
-    assertthat::assert_that(length(vector) > 1)
-    vector <- as.numericTryCatch(vector)
-    diff.counts <- table(diff(as.numeric(vector)))
-    diff.value <- attr(diff.counts[diff.counts == max(diff.counts)], "names")
-    if (length(diff.value) > 1) {
-        stop("There are multiple intervals with the same frequency")
-    }
-    return(as.numeric(diff.value))
+  assertthat::assert_that(length(vector) > 1)
+  vector <- as.numericTryCatch(vector)
+  diff.counts <- table(diff(as.numeric(vector)))
+  diff.value <- attr(diff.counts[diff.counts == max(diff.counts)], "names")
+  if (length(diff.value) > 1) {
+    stop("There are multiple intervals with the same frequency")
+  }
+  return(as.numeric(diff.value))
 }
