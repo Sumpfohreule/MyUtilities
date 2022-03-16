@@ -1,7 +1,9 @@
 #' Determine duplicate elements including its first occurrence
 #'
-#' allDuplicated works similar to duplicated, but also returns true for the first occurrence
-#' of any duplicate. The function only works on vectors or single columns of a data.frame for now
+#' allDuplicated works similar to duplicated, but also returns true for the
+#' first occurrence
+#' of any duplicate. The function only works on vectors or single columns of a
+#' data.frame for now
 #'
 #' @param x A vector of values
 #' @return A boolean vector
@@ -18,8 +20,8 @@
 #'   object = filter(test_df, allDuplicated(vars)),
 #'   expected = test_df[-5, ]
 #' )
-#'
 #' @export
+#'
 allDuplicated <- function(x) {
   assertthat::assert_that(is.vector(x))
   simple_duplicates <- duplicated(x)

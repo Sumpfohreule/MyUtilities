@@ -1,8 +1,9 @@
-########################################################################################################################
-# TODO: make fillDateGaps.default a real default method or maybe just use seq to overload
+# TODO: make fillDateGaps.default a real default method or maybe just use seq to
+# overload
 #' Generic S3 Method for filling in date times
 #'
-#' Missing value within a date/time vector are filled according to a provided interval
+#' Missing value within a date/time vector are filled according to a provided
+#'  interval
 #'
 #' @export
 #'

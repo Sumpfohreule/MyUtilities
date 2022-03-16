@@ -1,7 +1,7 @@
-########################################################################################################################
 #' Checks if a given year is a leap year
 #'
-#' @description A simple function determining if a given numeric value is a leap year
+#' @description A simple function determining if a given numeric value is a leap
+#' year
 #'
 #' @param year A numeric value which represents a year
 #' @keywords dates

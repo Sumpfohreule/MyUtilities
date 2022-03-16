@@ -1,8 +1,8 @@
-########################################################################################################################
 #' Converts to numeric with indexed information in Debug
 #'
 #' Works like as.numeric, until a non-numeric value is present.
-#' Then the warning/error is caught re-thrown with the indices and problematic original values printed out
+#' Then the warning/error is caught re-thrown with the indices and problematic
+#' original values printed out
 #'  for better finding 'faulty' data
 #'
 #' @param x A value or vector which is to be converted to numeric

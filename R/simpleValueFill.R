@@ -1,11 +1,14 @@
-########################################################################################################################
 #' Fills missing values starting with the best correlation
 #'
-#' Correlations between value columns are tested and missing values are replaced beginning with the best correlation.
+#' Correlations between value columns are tested and missing values are replaced
+#'  beginning with the best correlation.
 #'
-#' @param value_table A data.frame which contains the values to be filled and for replacement
-#' @param value_cols column names of the columns which are to be filled and used for replacement
-#' @param min_correlation Minimum correlation factor between columns to use it for filling
+#' @param value_table A data.frame which contains the values to be filled and
+#' for replacement
+#' @param value_cols column names of the columns which are to be filled and used
+#' for replacement
+#' @param min_correlation Minimum correlation factor between columns to use it
+#' for filling
 #' @export
 #'
 simpleValueFill <- function(value_table, value_cols, min_correlation = 0.9) {
@@ -22,8 +25,10 @@ simpleValueFill <- function(value_table, value_cols, min_correlation = 0.9) {
   names(out_table) <- new_names
   new_value_cols <- make.names(value_cols)
   var_pairs <- rje::powerSet(unique(new_value_cols)) %>%
-    purrr::map(., function(x) if (length(x) == 2) {
-      return(x)
+    purrr::map(., function(x) {
+      if (length(x) == 2) {
+        return(x)
+      }
     }) %>%
     Filter(f = Negate(is.null), x = .)
 
@@ -56,20 +61,29 @@ simpleValueFill <- function(value_table, value_cols, min_correlation = 0.9) {
 
     for (replace.column in unlist(reduced_correlation[, "variable_1"])) {
       replacement_rows <- out_table %>%
-        mutate(temp_na_replace = is.na(!!as.symbol(value.col)) & !is.na(!!as.symbol(replace.column))) %>%
+        mutate(temp_na_replace = is.na(!!as.symbol(value.col)) &
+          !is.na(!!as.symbol(replace.column))) %>%
         pull(temp_na_replace)
       if (sum(replacement_rows) > 0) {
         replacement_predictions <- replace.column %>%
           purrr::map(~ paste(value.col, .x, sep = "~")) %>%
           unlist() %>%
           purrr::map(~ lm(formula = .x, out_table)) %>%
-          purrr::map(~ predict(.x, as.data.frame(out_table[replacement_rows, ])))
+          purrr::map(~ predict(
+            .x,
+            as.data.frame(out_table[replacement_rows, ])
+          ))
         out_table[replacement_rows, value.col] <- replacement_predictions
       }
     }
   }
   row_means <- out_table %>%
-    mutate(temp_row_means = rowMeans(select(., tidyselect::all_of(new_value_cols)), na.rm = TRUE)) %>%
+    mutate(temp_row_means = rowMeans(select(
+      .,
+      tidyselect::all_of(new_value_cols)
+    ),
+    na.rm = TRUE
+    )) %>%
     mutate(temp_row_means = if_else(
       condition = is.nan(temp_row_means),
       true = as.numeric(NA),

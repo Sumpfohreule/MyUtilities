@@ -1,4 +1,3 @@
-########################################################################################################################
 # FIXME: catch bad inputs (0, -x)
 # FIXME: uneven in.seconds values can lead to unexpected results (eg. 7)
 #' Round POSIXct values
@@ -10,13 +9,22 @@
 #' @param round.fun A function for rounding (round, ceiling, floor, trunc)
 #' @export
 #'
-roundPOSIXct <- function(x, in.seconds = calculateMainInterval(x), round.fun = round) {
-  .Deprecated("lubridate", msg = "MyUtilities::roundPOSIXct is deprecated.\n Use lubridates round_date, ceiling_date, floor_date instead.")
+roundPOSIXct <- function(x, in.seconds = calculateMainInterval(x),
+                         round.fun = round) {
+  .Deprecated("lubridate",
+    msg = paste0(
+      "MyUtilities::roundPOSIXct is deprecated.\n Use ",
+      "lubridates round_date, ceiling_date, floor_date instead."
+    )
+  )
   if (!"POSIXct" %in% class(x)) {
     stop("A POSIXct value was expected")
   }
   time.zone <- attr(x, "tzone")
   rounded.values <- round.fun((as.numeric(x) / in.seconds)) * in.seconds
-  out.posix <- as.POSIXctFixed(rounded.values, tz = time.zone, origin = "1970-01-01")
+  out.posix <- as.POSIXctFixed(rounded.values,
+    tz = time.zone,
+    origin = "1970-01-01"
+  )
   return(out.posix)
 }

@@ -1,13 +1,17 @@
 #' Imports FVA specific Level2 aggregated xlsx-file (Gesamt)
 #'
-#' @param xlsx_path A file path (or a workbook) to an excel with a specific structure (Two header columns; date column named 'Datum')
+#' @param xlsx_path A file path (or a workbook) to an excel with a specific
+#' structure (Two header columns; date column named 'Datum')
 #' @param sheet Single sheet name of the excel file to be imported
 #' @return A data.table
 #' @export
 #'
 importAggregateExcelSheet <- function(xlsx_path, sheet) {
   if (assertthat::is.string(xlsx_path)) {
-    assertthat::assert_that(is_contained(sheet, openxlsx::getSheetNames(xlsx_path)))
+    assertthat::assert_that(is_contained(
+      sheet,
+      openxlsx::getSheetNames(xlsx_path)
+    ))
   } else {
     assertthat::assert_that(is_contained(sheet, names(xlsx_path)))
   }
@@ -15,7 +19,10 @@ importAggregateExcelSheet <- function(xlsx_path, sheet) {
     xlsx_path,
     sheet = sheet
   )
-  names(input_sheet) <- stringr::str_replace(names(input_sheet), pattern = "^.*Datum.*$", replacement = "Datum")
+  names(input_sheet) <- stringr::str_replace(names(input_sheet),
+    pattern = "^.*Datum.*$",
+    replacement = "Datum"
+  )
   original_names <- names(input_sheet)
 
   date_col <- sym("Datum")
@@ -28,7 +35,10 @@ importAggregateExcelSheet <- function(xlsx_path, sheet) {
       return(conversion_function(x))
     }) %>%
     as_tibble() %>%
-    mutate(!!date_col := as.POSIXct(!!date_col * 60 * 60 * 24, origin = "1899-12-30", tz = "UTC")) %>%
+    mutate(!!date_col := as.POSIXct(!!date_col * 60 * 60 * 24,
+      origin = "1899-12-30",
+      tz = "UTC"
+    )) %>%
     mutate(!!date_col := lubridate::round_date(!!date_col, "1min")) %>%
     data.table::as.data.table()
   names(output_sheet) <- original_names

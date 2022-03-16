@@ -1,31 +1,49 @@
-########################################################################################################################
-#' Increment version (Major, Minor, Patch, Development) of a package DESCRIPTION file
+#' Increment version (Major, Minor, Patch, Development) of a package DESCRIPTION
+#' file
 #'
 #' @param source_path path of the package whose DESCRIPTION is to be incremented
-#' @param incrementing_level Which level (Major, Minor, Patch, Development) of the version number to increment
+#' @param incrementing_level Which level (Major, Minor, Patch, Development) of
+#' the version number to increment
 #' @export
 #'
 incrementPackageVersion <- function(source_path, incrementing_level) {
   possible_levels <- c("Major", "Minor", "Patch", "Development")
   if (!(incrementing_level %in% possible_levels)) {
-    stop("incrementing_level must be one of the following: \n", paste(possible_levels, collapse = ", "))
+    stop(
+      "incrementing_level must be one of the following: \n",
+      paste(possible_levels, collapse = ", ")
+    )
   }
 
   # load description
-  description_file <- dir(source_path, pattern = "^DESCRIPTION$", full.names = TRUE, recursive = TRUE)
+  description_file <- dir(source_path,
+    pattern = "^DESCRIPTION$",
+    full.names = TRUE, recursive = TRUE
+  )
   description_lines <- readLines(description_file)
-  version_row_number <- which(stringr::str_detect(description_lines, pattern = "^Version:"))
+  version_row_number <- which(stringr::str_detect(description_lines,
+    pattern = "^Version:"
+  ))
   version_line <- description_lines[version_row_number]
 
   # deconstruct information
-  current_version <- stringr::str_match(version_line,
+  current_version <- stringr::str_match(
+    version_line,
     pattern = "(?<=^Version: )[0-9]+\\.[0-9]+\\.[0-9]+(?:\\.[0-9]+)?$"
   )
-  split_version_vector <- as.numeric(unlist(stringr::str_split(current_version, pattern = "\\.")))
-  names(split_version_vector) <- possible_levels[1:length(split_version_vector)]
+  split_version_vector <- current_version %>%
+    stringr::str_split(pattern = "\\.") %>%
+    unlist() %>%
+    as.numeric()
+  names(split_version_vector) <- possible_levels[
+    1:seq_len(split_version_vector)
+  ]
 
   # increment and reconstruct information
-  incrementing_function <- get(paste0(".increment", incrementing_level, "Version"))
+  incrementing_function <- get(paste0(
+    ".increment", incrementing_level,
+    "Version"
+  ))
   updated_version_vector <- incrementing_function(split_version_vector)
 
 
@@ -48,7 +66,8 @@ incrementPackageVersion <- function(source_path, incrementing_level) {
   is_out_of_development <- TRUE %in% (unlist(split_version_vector)[1:3] > 0)
   if (is_out_of_development) {
     stop(
-      "Should not increment 'Development' version of package which already left development and ",
+      "Should not increment 'Development' version of package which already ",
+      "left development and ",
       "has a Main/Minor/Patch version"
     )
   }
@@ -78,6 +97,7 @@ incrementPackageVersion <- function(source_path, incrementing_level) {
 }
 
 .dropDevelopmentVersion <- function(split_version_vector) {
-  without_development <- split_version_vector[names(split_version_vector) != "Development"]
+  without_development <- split_version_vector[names(split_version_vector) !=
+    "Development"]
   return(without_development)
 }

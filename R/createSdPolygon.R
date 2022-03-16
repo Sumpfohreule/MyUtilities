@@ -1,7 +1,7 @@
-########################################################################################################################
 #' Creating a sd polygon-table
 #'
-#' This function creates a table, which can be used to plot a sd-polygon in ggplot etc.
+#' This function creates a table, which can be used to plot a sd-polygon in
+#' ggplot etc.
 #' @param x A numeric vector with the same length as y
 #' @param y A numeric vector with the same length as x
 #' @param sd The standard deviation value calculated for the data

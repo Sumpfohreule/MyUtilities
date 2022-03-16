@@ -1,4 +1,3 @@
-########################################################################################################################
 #' Wrapper for dplyr filter which can pass NULL values through
 #'
 #' @seealso \link{dplyr::filter}

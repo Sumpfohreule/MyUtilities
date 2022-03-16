@@ -1,6 +1,7 @@
 #' Fills gaps between values with a given interval
 #'
-#' If values are provided with changing direction (ascending and descending order)
+#' If values are provided with changing direction
+#' (ascending and descending order)
 #' gaps are filled accordingly. Make sure values are ordered beforehand if only
 #' a single orientation is expected
 #'
@@ -10,6 +11,7 @@
 #' @param values vector of values to to gap fill
 #' @param interval A numeric value describing the expected interval
 #' @export
+#'
 fillGaps <- function(values, interval) {
   stop("Not working correctly yet!")
   assertthat::assert_that(length(interval) == 1)

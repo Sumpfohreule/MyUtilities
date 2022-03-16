@@ -1,4 +1,3 @@
-########################################################################################################################
 # TODO: Replace date.col with more general ways of selection
 #' Query data from an Access-DB (32 Bit)
 #'
@@ -26,8 +25,20 @@ access32BitQuery <- function(db.path, sql.query, date.col, out.file) {
     expr <- c(expr, "suppressWarnings(library(data.table))")
     expr <- c(expr, "options(warn=1)")
     expr <- c(expr, sprintf("%s <- odbcConnectAccess('%s')", ODBC_con, db.path))
-    expr <- c(expr, sprintf("%s <- as.data.table(sqlQuery(%s, %s, as.is = TRUE))", data, ODBC_con, sql.query))
-    expr <- c(expr, sprintf("%1$s[, %2$s := as.POSIXct(%2$s, tz = 'UTC')]", data, date.col))
+    expr <- c(
+      expr,
+      sprintf(
+        "%s <- as.data.table(sqlQuery(%s, %s, as.is = TRUE))",
+        data,
+        ODBC_con,
+        sql.query
+      )
+    )
+    expr <- c(expr, sprintf(
+      "%1$s[, %2$s := as.POSIXct(%2$s, tz = 'UTC')]",
+      data,
+      date.col
+    ))
     expr <- c(expr, sprintf("setkey(%1$s, %2$s)", data, date.col))
     expr <- c(expr, sprintf("close(%s)", ODBC_con))
     expr <- c(expr, sprintf("saveRDS(%s, '%s')", data, out.file))
@@ -35,7 +46,12 @@ access32BitQuery <- function(db.path, sql.query, date.col, out.file) {
 
     # launch 32 bit R session and run expressions
     prog <- file.path(R.home(), "bin", "i386", "Rscript.exe")
-    system2(prog, args = c("-e", shQuote(expr)), stdout = NULL, wait = TRUE, invisible = TRUE)
+    system2(prog,
+      args = c("-e", shQuote(expr)),
+      stdout = NULL,
+      wait = TRUE,
+      invisible = TRUE
+    )
 
     # display table fields
   } else {

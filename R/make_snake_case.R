@@ -13,7 +13,6 @@ make_snake_case_function <- function(function_file) {
   FUNCTION_REGEX <- " *(?:<-|=) *function *\\("
   NAME_REGEX <- "[[:alpha:]_.][[:alnum:]_.]*"
   DETECT_LINE_REGEX <- paste0("^ *[^#] *", NAME_REGEX, FUNCTION_REGEX)
-  MATCH_NAME_REGEX <- paste0(NAME_REGEX, "(?=", FUNCTION_REGEX, ")")
 
   # Read file
   original_contents <- readLines(function_file)

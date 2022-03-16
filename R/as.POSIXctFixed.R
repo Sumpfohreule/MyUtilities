@@ -1,4 +1,3 @@
-########################################################################################################################
 #' Fix for as.POSXct not accepting tz
 #'
 #' This small fix allows usage of the timezone argument for Date objects.

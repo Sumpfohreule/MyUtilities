@@ -1,9 +1,12 @@
 #' Combine two vectors in alternating order
 #'
-#' A new vector is created which contains the values of both input vectors in alternating order beginning with the first input vector
+#' A new vector is created which contains the values of both input vectors in
+#' alternating order beginning with the first input vector
 #'
-#' @param vector_1,vector_2 Any vector which is compatible with the other or coercible
+#' @param vector_1,vector_2 Any vector which is compatible with the other or
+#' coercible
 #' @export
+#'
 interlace <- function(vector_1, vector_2) {
   if (is.null(vector_1)) {
     return(vector_2)

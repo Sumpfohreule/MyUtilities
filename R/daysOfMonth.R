@@ -1,10 +1,11 @@
-########################################################################################################################
 #' Calculating the number of days of a given date
 #'
-#' @description This function calculates the number of days of a month, based on a given POSIXct value.
+#' @description This function calculates the number of days of a month, based on
+#' a given POSIXct value.
 #' Leap years should be handled correctly.
 #'
-#' @param date A single POSIXct value for which the number of days should be calculated
+#' @param date A single POSIXct value for which the number of days should be
+#' calculated
 #' @keywords dates
 #' @export
 #' @examples
@@ -18,7 +19,12 @@ daysOfMonth <- function(date) {
   .Deprecated("lubridate::days_in_month")
   year <- data.table::year(date)
   month <- data.table::month(date)
-  start <- as.POSIXctFixed(paste0(year, "-", month, "-01"), format = "%Y-%m-%d", tz = "UTC")
-  end <- as.POSIXctFixed(paste0(year, "-", month + 1, "-01"), format = "%Y-%m-%d", tz = "UTC")
+  start <- as.POSIXctFixed(paste0(year, "-", month, "-01"),
+    format = "%Y-%m-%d",
+    tz = "UTC"
+  )
+  end <- as.POSIXctFixed(paste0(year, "-", month + 1, "-01"),
+    format = "%Y-%m-%d", tz = "UTC"
+  )
   return(as.integer(end - start))
 }

@@ -1,7 +1,7 @@
-########################################################################################################################
 #' Calculates the binomial coefficient
 #'
-#' The "simplified" function for binomial calculation (Not working for Real Numbers)
+#' The "simplified" function for binomial calculation
+#' (Not working for Real Numbers)
 #'
 #' @param n Number of all elements of a set
 #' @param k Length of the possible combinations to be selected
