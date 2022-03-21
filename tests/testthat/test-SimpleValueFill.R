@@ -1,4 +1,3 @@
-# TODO: Convert tests to testthat!
 test_that("testNothingoReplace", {
   original_table <- data.frame(x = 10:1, y = 21:30)
 
@@ -95,7 +94,7 @@ test_that("testUseOnlySomeColumns", {
   target_table <- data.frame(x = 1:15, y = 1:15, z = seq(2, 30, 2))
 
   filled_table <- simpleValueFill(original_table, only_use_xy)
-  expect_error(target_table, filled_table)
+  expect_equal(target_table, filled_table)
 })
 
 test_that("testErrorForDuplicatedColumnNames", {
@@ -110,7 +109,7 @@ test_that("testFillWithNonStandardColumnNames", {
 
   filled_table <- simpleValueFill(original_table, value_cols = c("001", "002"))
 
-  expect_equals(target = c("001", "002"), names(filled_table))
+  expect_equal(c("001", "002"), names(filled_table))
 })
 
 test_that("testAllValuesAreEmpty", {
@@ -121,7 +120,7 @@ test_that("testAllValuesAreEmpty", {
 
   filled_table <- simpleValueFill(original_table, c("x", "y"))
 
-  expect_equals(original_table, filled_table)
+  expect_equal(original_table, filled_table)
 })
 
 test_that("testOnMoreThanTwoColumnsWithOnlyNaNoNanIsReturned", {
@@ -134,13 +133,13 @@ test_that("testOnMoreThanTwoColumnsWithOnlyNaNoNanIsReturned", {
 
   # check first if values are NA or NaN (is.na) and afterwards that non are NaN
   # (NA or NaN) and not NaN = NA and not NaN
-  expect_equals(TRUE %in% is.na(unlist(filled_table[6, ])))
-  expect_equals(!(TRUE %in% is.nan(unlist(filled_table[6, ]))))
+  expect_true(TRUE %in% is.na(unlist(filled_table[6, ])))
+  expect_true(!(TRUE %in% is.nan(unlist(filled_table[6, ]))))
 })
 
 test_that("testErrorOnOnlyOneColumn", {
   value_table <- data.frame(x = 1:10)
-  expect_equals(simpleValueFill(value_table, value_cols = c("x")))
+  expect_error(simpleValueFill(value_table, value_cols = c("x")))
 })
 
 test_that("testErrorOnProvidedColsNotExisting", {
@@ -148,7 +147,7 @@ test_that("testErrorOnProvidedColsNotExisting", {
     x = c(1:5, NA, 7:10), y = c(1:5, NA, 7:10),
     z = c(1:5, NA, 7:10)
   )
-  expect_equals(simpleValueFill(value_table,
+  expect_error(simpleValueFill(value_table,
     value_cols = c("x", "not_there")
   ))
 })
