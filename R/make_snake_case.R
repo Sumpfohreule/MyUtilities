@@ -111,15 +111,15 @@ make_snake_case <- function(camel_case_string) {
   camel_case_string %>%
     # Replace all capital letters with an underscore and its lower case
     gsub(
-      pattern = "([A-Z0-9]+)",
+      pattern = "([A-Z]+|[0-9]+)",
       replacement = "_\\L\\1",
       x = .,
       perl = TRUE
     ) %>%
     # Remove potential underscore from the beginning
     sub(
-      pattern = "^_",
-      replacement = "",
+      pattern = "^( *|`)_",
+      replacement = "\\1",
       x = ., perl = TRUE
     )
 }

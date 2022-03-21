@@ -16,8 +16,8 @@ test_that("No underscore at the beginning of a string", {
 
 test_that("Make multiple adjacent capital letters lower case with only one
           underscore", {
-  expect_equal(make_snake_case("acronymCCD"), "acronym_ccd")
-})
+            expect_equal(make_snake_case("acronymCCD"), "acronym_ccd")
+          })
 
 test_that("Also add underscore bevor numbers", {
   expect_equal(make_snake_case("withNumbers123"), "with_numbers_123")
@@ -40,10 +40,19 @@ test_that("Apply function to string vector", {
   )
 })
 
-test_that("Only accept strings which can be variable/function names", {
-  # Starting with a character, followed by characters or numbers
-  expect_error(make_snake_case("  aBdeCdd"))
-  expect_error(make_snake_case("123NotCorrect"))
-  expect_error(make_snake_case("NotCorrect   "))
-  expect_error(make_snake_case("NoOtherSymbols!Error"))
+test_that("A dot anywhere is accepted", {
+  expect_equal(make_snake_case(".withNum.bers123"), ".with_num.bers_123")
+})
+
+test_that("Empty spaces in the beginning don't create an underscore with a
+          capital", {
+            expect_equal(make_snake_case("   AbcDefGhi"), "   abc_def_ghi")
+          })
+
+test_that("Don't consider capital letters next to numbers as one word", {
+  expect_equal(make_snake_case("abc123Def"), "abc_123_def")
+})
+
+test_that("Unconventional names in backticks work as expected", {
+  expect_equal(make_snake_case("`123AbcDe`"), "`123_abc_de`")
 })
