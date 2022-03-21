@@ -108,16 +108,6 @@ make_snake_case_function <- function(function_file) {
 #' @param string A string or vector which should be converted to camel_case
 #' @return The string converted to snake_case
 make_snake_case <- function(camel_case_string) {
-  # Regex allows names starting with _ or a letter followed by
-  # alphanumeric values or an _
-  FUNCTION_NAME_REGEX <- "^[[:alpha:]_.][[:alnum:]_.]*$"
-  camel_case_string %>%
-    stringr::str_detect(FUNCTION_NAME_REGEX) %>%
-    all() %>%
-    assertthat::assert_that(
-      msg = "At least one string is not a correct function string"
-    )
-
   camel_case_string %>%
     # Replace all capital letters with an underscore and its lower case
     gsub(
