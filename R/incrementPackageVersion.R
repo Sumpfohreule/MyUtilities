@@ -6,6 +6,7 @@
 #' the version number to increment
 #' @export
 #'
+# TODO: Possible values as package constant
 incrementPackageVersion <- function(source_path, incrementing_level) {
   possible_levels <- c("Major", "Minor", "Patch", "Development")
   if (!(incrementing_level %in% possible_levels)) {
@@ -36,7 +37,7 @@ incrementPackageVersion <- function(source_path, incrementing_level) {
     unlist() %>%
     as.numeric()
   names(split_version_vector) <- possible_levels[
-    1:seq_len(split_version_vector)
+    1:length(split_version_vector)
   ]
 
   # increment and reconstruct information
