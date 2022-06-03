@@ -17,12 +17,14 @@ incrementPackageVersion <- function(source_path, incrementing_level) {
   }
 
   # load description
-  description_file <- dir(source_path,
+  description_file <- dir(
+    source_path,
     pattern = "^DESCRIPTION$",
     full.names = TRUE, recursive = TRUE
   )
   description_lines <- readLines(description_file)
-  version_row_number <- which(stringr::str_detect(description_lines,
+  version_row_number <- which(stringr::str_detect(
+    string = description_lines,
     pattern = "^Version:"
   ))
   version_line <- description_lines[version_row_number]
@@ -99,6 +101,6 @@ incrementPackageVersion <- function(source_path, incrementing_level) {
 
 .dropDevelopmentVersion <- function(split_version_vector) {
   without_development <- split_version_vector[names(split_version_vector) !=
-    "Development"]
+                                                "Development"]
   return(without_development)
 }
