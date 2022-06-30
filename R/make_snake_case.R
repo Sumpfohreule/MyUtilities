@@ -123,3 +123,18 @@ make_snake_case <- function(camel_case_string) {
       x = ., perl = TRUE
     )
 }
+
+make_snake_case2 <- function(file_name) {
+  parsed_input <- readLines(file_name, encoding = "UTF-8") %>%
+    parse(text = .) %>%
+    getParseData() %>%
+    filter(nzchar(text))
+
+  snake_cased <- parsed_input %>%
+    mutate(text = if_else(condition = token %in% c("SYMBOL", "SYMBOL_FORMALS"),
+                          true = make_snake_case(text),
+                          false = text))
+
+  deparsed_text <- deparse_flat_parse_data(snake_cased)
+  writeLines(deparsed_text, "x.R")
+}
